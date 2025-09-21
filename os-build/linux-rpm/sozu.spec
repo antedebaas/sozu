@@ -77,6 +77,31 @@ bzip2 -z %{name}.pp
 mkdir -p %{buildroot}%{_datadir}/selinux/packages
 cp -p %{name}.pp.bz2 %{buildroot}%{_datadir}/selinux/packages
 
+
+# Install license and documentation
+install -d %{buildroot}%{_licensedir}/%{name}
+install -m 644 LICENSE %{buildroot}%{_licensedir}/%{name}/LICENSE
+
+install -d %{buildroot}%{_docdir}/%{name}
+install -m 644 README.md %{buildroot}%{_docdir}/%{name}/
+install -m 644 CHANGELOG.md %{buildroot}%{_docdir}/%{name}/
+install -m 644 CONTRIBUTING.md %{buildroot}%{_docdir}/%{name}/
+install -m 644 RELEASE.md %{buildroot}%{_docdir}/%{name}/
+install -m 644 doc/architecture.md %{buildroot}%{_docdir}/%{name}/doc
+install -m 644 doc/benchmark.md %{buildroot}%{_docdir}/%{name}/doc
+install -m 644 doc/configure.md %{buildroot}%{_docdir}/%{name}/doc
+install -m 644 doc/configure_cli.md %{buildroot}%{_docdir}/%{name}/doc
+install -m 644 doc/debugging_strategies.md %{buildroot}%{_docdir}/%{name}/doc
+install -m 644 doc/design_motivation.md %{buildroot}%{_docdir}/%{name}/doc
+install -m 644 doc/getting_started.md %{buildroot}%{_docdir}/%{name}/doc
+install -m 644 doc/how_to_use.md %{buildroot}%{_docdir}/%{name}/doc
+install -m 644 doc/lexicon.md %{buildroot}%{_docdir}/%{name}/doc
+install -m 644 doc/lifetime_of_a_session.md %{buildroot}%{_docdir}/%{name}/doc
+install -m 644 doc/recipes.md %{buildroot}%{_docdir}/%{name}/doc
+install -m 644 doc/README.md %{buildroot}%{_docdir}/%{name}/doc
+install -m 644 doc/tools_libraries.md %{buildroot}%{_docdir}/%{name}/doc
+install -m 644 doc/why_you_should_use.md %{buildroot}%{_docdir}/%{name}/doc
+
 %clean
 rm -rf %{buildroot}
 
@@ -103,8 +128,27 @@ semodule -r %{name}
 %{_unitdir}/%{name}.service
 %{_unitdir}/%{name}@.service
 
-%doc CHANGELOG.md CONTRIBUTING.md README.md RELEASE.md doc/architecture.md doc/configure.md doc/configure_cli.md doc/debugging_strategies.md doc/design_motivation.md doc/getting_started.md doc/how_to_use.md doc/lexicon.md doc/lifetime_of_a_session.md doc/managing_workers.md doc/recipes.md doc/tools_libraries.md doc/why_you_should_use.md
-%license LICENSE
+%doc
+%doc %{_docdir}/%{name}/README.md
+%doc %{_docdir}/%{name}/CHANGELOG.md
+%doc %{_docdir}/%{name}/CONTRIBUTING.md
+%doc %{_docdir}/%{name}/RELEASE.md
+%doc %{_docdir}/%{name}/doc/architecture.md
+%doc %{_docdir}/%{name}/doc/benchmark.md
+%doc %{_docdir}/%{name}/doc/configure.md
+%doc %{_docdir}/%{name}/doc/configure_cli.md
+%doc %{_docdir}/%{name}/doc/debugging_strategies.md
+%doc %{_docdir}/%{name}/doc/design_motivation.md
+%doc %{_docdir}/%{name}/doc/getting_started.md
+%doc %{_docdir}/%{name}/doc/how_to_use.md
+%doc %{_docdir}/%{name}/doc/lexicon.md
+%doc %{_docdir}/%{name}/doc/lifetime_of_a_session.md
+%doc %{_docdir}/%{name}/doc/recipes.md
+%doc %{_docdir}/%{name}/doc/README.md
+%doc %{_docdir}/%{name}/doc/tools_libraries.md
+%doc %{_docdir}/%{name}/doc/why_you_should_use.md
+
+%license %{_licensedir}/%{name}/LICENSE
 
 %changelog
 * Thu Dec 05 2024 Eloi Démolis <eloi.demolis@clever-cloud.com>
