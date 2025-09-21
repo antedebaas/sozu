@@ -21,6 +21,8 @@ BuildRequires: systemd
 BuildRequires: protobuf
 BuildRequires: rust
 BuildRequires: cargo
+BuildRequires: protobuf-compiler
+BuildRequires: gcc
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
 
