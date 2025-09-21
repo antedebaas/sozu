@@ -64,7 +64,6 @@ cp -p target/debug/%{name} %{buildroot}%{_bindir}/
 # server assets
 mkdir -p %{buildroot}%{_datadir}/sozu/{pki,html}
 cp -p lib/assets/{certificate.pem,key.pem,certificate_chain.pem} %{buildroot}%{_datadir}/%{name}/pki
-cp -p lib/assets/{404.html,503.html} %{buildroot}%{_datadir}/%{name}/html
 
 #service running directory
 mkdir -p %{buildroot}%{_localstatedir}/var/lib/%{name}
