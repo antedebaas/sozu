@@ -20,6 +20,7 @@ BuildRequires: selinux-policy-devel
 BuildRequires: systemd
 BuildRequires: protobuf
 BuildRequires: rust
+BuildRequires: cargo
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
 
