@@ -64,6 +64,8 @@ cp -p target/debug/%{name} %{buildroot}%{_bindir}/
 # server assets
 mkdir -p %{buildroot}%{_datadir}/sozu/{pki,html}
 cp -p lib/assets/{certificate.pem,key.pem,certificate_chain.pem} %{buildroot}%{_datadir}/%{name}/pki
+cp -p command/assets/custom_404.html %{buildroot}%{_datadir}/%{name}/html/404.html
+cp -p command/assets/custom_503.html %{buildroot}%{_datadir}/%{name}/html/503.html
 
 #service running directory
 mkdir -p %{buildroot}%{_localstatedir}/var/lib/%{name}
@@ -89,8 +91,8 @@ install -m 644 README.md %{buildroot}%{_docdir}/%{name}/
 install -m 644 CHANGELOG.md %{buildroot}%{_docdir}/%{name}/
 install -m 644 CONTRIBUTING.md %{buildroot}%{_docdir}/%{name}/
 install -m 644 RELEASE.md %{buildroot}%{_docdir}/%{name}/
+install -d %{buildroot}%{_docdir}/%{name}/doc
 install -m 644 doc/architecture.md %{buildroot}%{_docdir}/%{name}/doc
-install -m 644 doc/benchmark.md %{buildroot}%{_docdir}/%{name}/doc
 install -m 644 doc/configure.md %{buildroot}%{_docdir}/%{name}/doc
 install -m 644 doc/configure_cli.md %{buildroot}%{_docdir}/%{name}/doc
 install -m 644 doc/debugging_strategies.md %{buildroot}%{_docdir}/%{name}/doc
@@ -136,7 +138,6 @@ semodule -r %{name}
 %doc %{_docdir}/%{name}/CONTRIBUTING.md
 %doc %{_docdir}/%{name}/RELEASE.md
 %doc %{_docdir}/%{name}/doc/architecture.md
-%doc %{_docdir}/%{name}/doc/benchmark.md
 %doc %{_docdir}/%{name}/doc/configure.md
 %doc %{_docdir}/%{name}/doc/configure_cli.md
 %doc %{_docdir}/%{name}/doc/debugging_strategies.md
