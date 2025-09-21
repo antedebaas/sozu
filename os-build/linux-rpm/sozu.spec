@@ -19,7 +19,8 @@ BuildRequires: m4
 BuildRequires: selinux-policy-devel
 BuildRequires: systemd
 BuildRequires: protobuf
-# BuildRequires: rust
+BuildRequires: rust
+
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
 
 %description
