@@ -77,6 +77,8 @@ bzip2 -z %{name}.pp
 mkdir -p %{buildroot}%{_datadir}/selinux/packages
 cp -p %{name}.pp.bz2 %{buildroot}%{_datadir}/selinux/packages
 
+# Return to source root for license and documentation installation
+cd ../..
 
 # Install license and documentation
 install -d %{buildroot}%{_licensedir}/%{name}
