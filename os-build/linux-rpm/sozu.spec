@@ -39,9 +39,17 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
 
 %build
 %if "%{_build_mode}" == "RELEASE"
+%ifnarch x86_64
+cargo build --release -p sozu --locked --no-default-features
+%else
 cargo build --release -p sozu --locked
+%endif
+%else
+%ifnarch x86_64
+cargo build -p sozu --locked --no-default-features
 %else
 cargo build -p sozu --locked
+%endif
 %endif
 
 %install
