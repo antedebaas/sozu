@@ -71,6 +71,9 @@ cp -p command/assets/custom_503.html %{buildroot}%{_datadir}/%{name}/html/503.ht
 mkdir -p %{buildroot}%{_localstatedir}/var/lib/%{name}
 touch %{buildroot}%{_localstatedir}/var/lib/%{name}/state.json
 
+# runtime directory
+mkdir -p %{buildroot}%{_localstatedir}/run/%{name}
+
 # selinux
 cd os-build/selinux
 make -f /usr/share/selinux/devel/Makefile
@@ -113,10 +116,11 @@ rm -rf %{buildroot}
 semodule -i %{_datadir}/selinux/packages/%{name}.pp.bz2
 
 # selinux initial set file types
-chcon -t %{name}_unit_file_t %{_localstatedir}/run/%{name}/%{name}.service
-chcon -t %{name}_unit_file_t %{_localstatedir}/run/%{name}/%{name}@.service
+chcon -t %{name}_unit_file_t %{_unitdir}/%{name}.service
+chcon -t %{name}_unit_file_t %{_unitdir}/%{name}@.service
 chcon -t %{name}_exec_t %{_bindir}/%{name}*
 chcon -R -t %{name}_var_run_t %{_localstatedir}/var/lib/%{name}/
+chcon -R -t %{name}_var_run_t %{_localstatedir}/run/%{name}/
 
 %postun
 semodule -r %{name}
@@ -125,7 +129,7 @@ semodule -r %{name}
 %defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/%{name}/config.toml
 %{_bindir}/%{name}
-%{_localstatedir}/run/%{name}
+%dir %{_localstatedir}/run/%{name}
 %{_localstatedir}/var/lib/%{name}
 %{_datadir}/%{name}
 %{_datadir}/selinux/packages/%{name}.pp.bz2
