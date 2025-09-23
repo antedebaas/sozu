@@ -32,11 +32,7 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
 %setup -n %{name}-%{version}
 
 %build
-%ifnarch x86_64
-    cargo build --release --no-default-features --features "tolerant-http1-parser"
-%else
-    cargo build --release --no-default-features --features "simd,tolerant-http1-parser"
-%endif
+cargo build --release
 
 %install
 rm -rf %{buildroot}
