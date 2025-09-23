@@ -7,8 +7,7 @@
 Summary:	A lightweight, fast, always-up reverse proxy server.
 Name:		sozu
 Version:	1.0.6
-Release:	1%{?dist}
-Epoch:		1
+Release:	2%{?dist}
 License:	AGPL-3.0
 Group:		System Environment/Daemons
 URL:		https://github.com/sozu-proxy/sozu
@@ -33,10 +32,10 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
 %setup -n %{name}-%{version}
 
 %build
-%ifarch x86_64
-    cargo build --release
+%ifnarch x86_64
+    cargo build --release --no-default-features --features "simd,tolerant-http1-parser"
 %else
-    cargo build --no-default-features --release
+    cargo build --release --no-default-features --features "tolerant-http1-parser"
 %endif
 
 %install
