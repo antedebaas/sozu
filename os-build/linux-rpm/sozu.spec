@@ -57,9 +57,6 @@ touch %{buildroot}%{_sharedstatedir}/%{name}/state.json
 # runtime directory
 mkdir -p %{buildroot}%{_rundir}/%{name}
 
-# Return to source root for license and documentation installation
-pwd
-
 # Install license and documentation
 install -d %{buildroot}%{_licensedir}/%{name}
 install -m 644 LICENSE %{buildroot}%{_licensedir}/%{name}/LICENSE
