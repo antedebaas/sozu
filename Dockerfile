@@ -1,6 +1,4 @@
-ARG ALPINE_VERSION=edge
-
-FROM alpine:$ALPINE_VERSION as builder
+FROM alpine:latest as builder
 
 RUN apk update && apk add --no-cache --virtual .build-dependencies \
   cargo \
@@ -22,7 +20,7 @@ RUN mkdir .cargo
 RUN cargo vendor --locked >.cargo/config.toml
 RUN cargo build --release --frozen
 
-FROM alpine:$ALPINE_VERSION as bin
+FROM alpine:latest as bin
 
 EXPOSE 80
 EXPOSE 443
