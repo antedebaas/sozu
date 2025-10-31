@@ -51,11 +51,11 @@ cp -p command/assets/custom_404.html %{buildroot}%{_datadir}/%{name}/html/404.ht
 cp -p command/assets/custom_503.html %{buildroot}%{_datadir}/%{name}/html/503.html
 
 #service running directory
-mkdir -p %{buildroot}%{_localstatedir}/var/lib/%{name}
-touch %{buildroot}%{_localstatedir}/var/lib/%{name}/state.json
+mkdir -p %{buildroot}%{_sharedstatedir}/%{name}
+touch %{buildroot}%{_sharedstatedir}/%{name}/state.json
 
 # runtime directory
-mkdir -p %{buildroot}%{_localstatedir}/run/%{name}
+mkdir -p %{buildroot}%{_rundir}/%{name}
 
 # Return to source root for license and documentation installation
 pwd
