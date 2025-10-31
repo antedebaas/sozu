@@ -58,7 +58,7 @@ touch %{buildroot}%{_localstatedir}/var/lib/%{name}/state.json
 mkdir -p %{buildroot}%{_localstatedir}/run/%{name}
 
 # Return to source root for license and documentation installation
-cd ../..
+pwd
 
 # Install license and documentation
 install -d %{buildroot}%{_licensedir}/%{name}
