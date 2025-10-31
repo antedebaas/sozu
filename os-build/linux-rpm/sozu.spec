@@ -15,8 +15,6 @@ BuildRequires: m4
 BuildRequires: selinux-policy-devel
 BuildRequires: systemd
 BuildRequires: protobuf
-BuildRequires: rust
-BuildRequires: cargo
 BuildRequires: protobuf-compiler
 BuildRequires: gcc
 
@@ -29,6 +27,7 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
 %setup -n %{name}-%{version}
 
 %build
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 cargo build --release
 
 %install
