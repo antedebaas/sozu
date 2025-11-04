@@ -2,7 +2,7 @@
 
 Summary:	A lightweight, fast, always-up reverse proxy server.
 Name:		sozu
-Version:	1.1.0
+Version:	1.1.1
 Release:	1%{?dist}
 Epoch:		1
 License:	AGPL-3.0
@@ -29,6 +29,8 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
 %setup -n %{name}-%{version}
 
 %build
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+source "$HOME/.cargo/env"
 cargo build --release
 
 %install
@@ -133,6 +135,11 @@ chcon -R -t %{name}_var_run_t %{_rundir}/%{name}/
 %license %{_licensedir}/%{name}/LICENSE
 
 %changelog
+* Mon Nov 3 2025 Florentin Dubois <florentin.dubois@clever-cloud.com>
+- release: v1.1.1
+- We fixed a critical file descriptor handling bug introduced in v1.1.0. The Rust Edition 2024 migration incorrectly used OwnedFd instead of BorrowedFd in the enable_close_on_exec() and disable_close_on_exec() functions, causing file descriptors to be closed prematurely and breaking Sōzu's operation. This has been corrected by using BorrowedFd::borrow_raw() which only borrows the file descriptor without taking ownership, see PR #1181, fd68885a.
+- We fixed the RPM spec file to enable successful builds on COPR, EPEL 10, and Fedora 42+. Changes include: adding missing build dependencies (rust, cargo, protobuf-compiler, gcc), fixing changelog date formatting, improving FHS compliance with proper use of _rundir and _sharedstatedir macros, simplifying the build mode logic, and resolving SELinux policy installation issues, see PR #1182.
+- We applied clippy suggestions for code quality improvements in request builder, display modules, and backend error handling, see 28fff561.
 * Wed Oct 29 2025 Florentin Dubois <florentin.dubois@clever-cloud.com>
 - release: v1.1.0
 * Thu Dec 05 2024 Eloi Démolis <eloi.demolis@clever-cloud.com>
