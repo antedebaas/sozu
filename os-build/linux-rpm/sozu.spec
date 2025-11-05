@@ -9,7 +9,7 @@ License:	AGPL-3.0
 Group:		System Environment/Daemons
 URL:		https://github.com/sozu-proxy/sozu
 
-Source0:	https://github.com/sozu-proxy/sozu/archive/%{version}.tar.gz
+Source0:	https://github.com/antedebaas/sozu/archive/v%{version}.tar.gz
 
 BuildRequires: m4
 BuildRequires: selinux-policy-devel
