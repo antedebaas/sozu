@@ -29,6 +29,8 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
 %setup -n %{name}-%{version}
 
 %build
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+source "$HOME/.cargo/env"
 cargo build --release
 
 %install
