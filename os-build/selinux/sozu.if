@@ -10,7 +10,7 @@
 #
 interface(`stream_connect_sozu',`
        gen_require(`
-               type sozu_t, sozu_var_run_t;
+               type sozu_t, sozu_var_run_t, sozu_var_lib_t;
        ')
 
        files_search_pids($1)

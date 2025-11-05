@@ -14,42 +14,76 @@ policy_module(sozu, 0.1.0)
 gen_tunable(sozu_connect_any, false)
 
 type sozu_t;
-domain_type(sozu_t)
-
 type sozu_exec_t;
-files_type(sozu_exec_t)
+init_daemon_domain(sozu_t, sozu_exec_t)
+
+type sozu_var_lib_t;
+files_type(sozu_var_lib_t)
 
 type sozu_var_run_t;
-files_type(sozu_var_run_t)
+files_pid_file(sozu_var_run_t)
 
 type sozu_unit_file_t;
 systemd_unit_file(sozu_unit_file_t)
 
+########################################
+#
+# Local policy
+#
+
 #============= sozu_t ==================
-allow sozu_t sozu_exec_t:file { execute execute_no_trans };
 
-allow sozu_t self:capability kill;
-allow sozu_t self:process fork;
+# Capabilities
+allow sozu_t self:capability { kill setuid setgid sys_resource };
+allow sozu_t self:capability2 block_suspend;
 
+# Process operations
+allow sozu_t self:process { fork signal signull setrlimit };
+
+# Socket operations
 allow sozu_t self:unix_stream_socket create_stream_socket_perms;
 allow sozu_t self:tcp_socket create_stream_socket_perms;
+allow sozu_t self:udp_socket create_socket_perms;
 
+# Self-execution (for worker forking)
+allow sozu_t sozu_exec_t:file { execute execute_no_trans map read open getattr };
+can_exec(sozu_t, sozu_exec_t)
+
+# Manage state files in /var/lib/sozu
+manage_dirs_pattern(sozu_t, sozu_var_lib_t, sozu_var_lib_t)
+manage_files_pattern(sozu_t, sozu_var_lib_t, sozu_var_lib_t)
+files_var_lib_filetrans(sozu_t, sozu_var_lib_t, { file dir })
+
+# Manage runtime files in /run/sozu
 manage_dirs_pattern(sozu_t, sozu_var_run_t, sozu_var_run_t)
 manage_files_pattern(sozu_t, sozu_var_run_t, sozu_var_run_t)
 manage_sock_files_pattern(sozu_t, sozu_var_run_t, sozu_var_run_t)
+files_pid_filetrans(sozu_t, sozu_var_run_t, { file dir sock_file })
 
+# Network operations
 corenet_sendrecv_unlabeled_packets(sozu_t)
 corenet_tcp_bind_http_port(sozu_t)
 corenet_tcp_bind_http_cache_port(sozu_t)
+corenet_tcp_bind_generic_node(sozu_t)
 
+# System operations
 dev_read_rand(sozu_t)
 dev_read_urand(sozu_t)
 
+# DNS resolution
 sysnet_dns_name_resolve(sozu_t)
 
+# Logging
+logging_send_syslog_msg(sozu_t)
+
+# Read system state
+kernel_read_system_state(sozu_t)
+kernel_read_network_state(sozu_t)
+
+# Optional: allow connecting to any port
 tunable_policy(`sozu_connect_any',`
     corenet_tcp_connect_all_ports(sozu_t)
-	corenet_tcp_bind_all_ports(sozu_t)
-	corenet_sendrecv_all_packets(sozu_t)
-	corenet_tcp_sendrecv_all_ports(sozu_t)
+    corenet_tcp_bind_all_ports(sozu_t)
+    corenet_sendrecv_all_packets(sozu_t)
+    corenet_tcp_sendrecv_all_ports(sozu_t)
 ')
