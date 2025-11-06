@@ -1,4 +1,4 @@
-policy_module(sozu, 0.1.0)
+policy_module(sozu, 0.2.0)
 require {
 	type init_t;
 	type sozu_exec_t;
