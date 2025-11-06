@@ -11,10 +11,7 @@ require {
 }
 
 #============= init_t ==============
-allow init_t sozu_exec_t:file { execute execute_no_trans open read };
-
-#!!!! This avc can be allowed using the boolean 'domain_can_mmap_files'
-allow init_t sozu_exec_t:file map;
+allow init_t sozu_exec_t:file { execute execute_no_trans map open read };
 allow init_t sozu_var_run_t:dir { add_name remove_name };
 allow init_t sozu_var_run_t:file { open read write };
 allow init_t sozu_var_run_t:sock_file { create setattr unlink };
