@@ -39,6 +39,9 @@ files_type(sozu_exec_t)
 type sozu_var_run_t;
 files_type(sozu_var_run_t)
 
+type sozu_var_lib_t;
+files_type(sozu_var_lib_t)
+
 type sozu_unit_file_t;
 systemd_unit_file(sozu_unit_file_t)
 
@@ -52,6 +55,9 @@ allow sozu_t self:tcp_socket create_stream_socket_perms;
 manage_dirs_pattern(sozu_t, sozu_var_run_t, sozu_var_run_t)
 manage_files_pattern(sozu_t, sozu_var_run_t, sozu_var_run_t)
 manage_sock_files_pattern(sozu_t, sozu_var_run_t, sozu_var_run_t)
+
+manage_dirs_pattern(sozu_t, sozu_var_lib_t, sozu_var_lib_t)
+manage_files_pattern(sozu_t, sozu_var_lib_t, sozu_var_lib_t)
 
 corenet_sendrecv_unlabeled_packets(sozu_t)
 corenet_tcp_bind_http_port(sozu_t)
